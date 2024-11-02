@@ -1,31 +1,21 @@
 # App: DB_Components
 
-[[__TOC__]]
+[[_TOC_]]
 
-## Endpoint `GET /parts/?table=<tablename>`
-
-### Overview
+## Endpoint `GET /parts/table?tablename=<tablename>`
 Fetches and returns the complete contents of a specified database table.
 
-### Details
-- **Permissions**: Open access (`AllowAny`).
+- **Permissions**: Open access (`IsAuthenticated`).
 - **Serializer**: `GenericComponentSerializer` — must match the data structure for validation.
-- **Query Parameter**: `table` — Specifies the table name.
+- **Query Parameter**: `tablename` — Specifies the table name. This table must exist in the database.
 
-### Class: `GetTableContentView`
+### ViewSet: `GetTableContentView`
 Handles GET requests for database table data retrieval.
 
-### Key Methods
-
-#### `get_queryset()`
-- **Function**: Verifies the existence of the table and retrieves its data.
-- **Output**: Queryset of the table content.
-
-#### `get()`
 - **Purpose**: Processes GET requests.
 - **Steps**:
-  1. Extracts the `table` parameter from the request.
-  2. Calls `get_queryset()` to fetch data.
+  1. Extracts the `tablename` parameter from the request and does a sanity check.
+  2. Calls `get_queryset()` to fetch data if `tablename` exists in database.
   3. Uses `GenericComponentSerializer` to serialize data.
   4. Checks if serialization is valid.
 - **Response**:
@@ -33,12 +23,33 @@ Handles GET requests for database table data retrieval.
 	- Other: Returns raw data if validation fails.
 
 
+## Endpoint `GET /parts/tablelist`
+This endpoint returns a list of all tables in the connected components database.
+
+- **Permissions**: Open access (`IsAuthenticated`).
+- **Serializer**: none
+- **Query Parameter**: none
+
+### ViewSet: `GetTableListView`
+A view class that handles GET requests to fetch the list of tables in the database.
+
+- **Purpose**: Handles GET requests.
+- **Process**:
+  1. Calls `get_queryset()` to retrieve the list of tables.
+  2. Returns the list of tables as a response.
+  
+- **Response**:
+  - **200 OK**: Returns a JSON array of table names from the database.
+  - Other: Returns raw data if validation fails.
+
+---
+
 ## Serializer: `GenericComponentSerializer`
 Handles the mapping of input data into structured model instances and outputs a serializable format. `GenericComponentSerializer` is a custom serializer designed to handle the complex parsing and mapping of component data structures. It extends `serializers.BaseSerializer` from Django REST Framework, supporting both serialization and deserialization of nested data models.
 
 ### Attributes
 - **`unmapped_data`**: A dictionary holding input data not initially matched to model fields, aiding in extracting unrecognized fields.
-    
+
 ### Methods
 
 #### `__init__(self, instance=None, data=None, **kwargs)`
@@ -67,6 +78,11 @@ Constructor that initializes the serializer with optional `instance` and `data` 
   - `item`: The input data dictionary.
 - **Returns**: A dictionary of mapped and structured data.
 
-#### `to_representation(self, instance)`
-- **Purpose**: Converts a model instance into a serializable dictionary.
-- **Returns**: `None` (not implemented in detail).
+#### `to_internal_value(self, data)`
+- **Purpose**: Converts input data into a validated internal representation.
+- **Process**:
+  - Handles both individual and list data input.
+  - Calls `convert_input()` for each data item.
+- **Parameters**:
+  - `data`: The input data (list or dictionary).
+- **Returns**: Converted data suitable for use in the application.

@@ -7,13 +7,13 @@
 _ToDo_
 
 
-## Setup Environment
+## Setup Backend Environment
 
 Create virtual environment and activate it
 
 ```
 # Windows
-py -3 -m venv .venv
+py3 -m venv .venv
 .venv\scripts\activate
 ```
 
@@ -42,3 +42,12 @@ pkg install mariadb114-server mariadb114-client
 service mysql-server start
 mariadb-upgrade
 ```
+
+## Setup Frontend Environment
+
+React (JavaScript + SWC)
+
+```
+npm install axios react-router-dom jwt-decode
+```
+

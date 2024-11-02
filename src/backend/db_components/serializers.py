@@ -66,6 +66,8 @@ class GenericComponentSerializer(serializers.BaseSerializer):
 
         return serialized_data
 
+# ========================================
+
     # Do the conversion of the input data (single data)
     def convert_input(self, item):
         self.unmapped_data = {k.lower(): v for k, v in item.items()}
@@ -103,12 +105,16 @@ class GenericComponentSerializer(serializers.BaseSerializer):
     def to_representation(self, instance):
         return None
 
+# ========================================
+
     # Convert input data into a valid internal representation
     def to_internal_value(self, data):
         if isinstance(data, list):
             return [self.convert_input(item) for item in data]
         else:
             return self.convert_input(data)
+
+# ========================================
 
     # Create a new instance based on validated data
     def create(self, validated_data):

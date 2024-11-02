@@ -1,0 +1,5 @@
+main {
+    height: 80vh; /* or any specific height */
+    overflow-y: auto; /* allows vertical scrolling */
+  }
+  

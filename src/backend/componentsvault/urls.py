@@ -19,5 +19,5 @@ urlpatterns = [
     path("api-auth/", include("rest_framework.urls")),
 
     # application paths
-    path("parts/", include("db_components.urls")),
+    path("parts", include("db_components.urls")),
 ]
