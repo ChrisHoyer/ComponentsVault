@@ -1,0 +1,80 @@
+/* Global Definitions */
+
+:root {
+    /* Colors */
+    --page-background-color: #F9FAFB;
+    --page-font-color: #202B37;
+    --page-font-placeholder-color: #bbb;
+    --page-horizontal-color: #bbb;
+
+    --element-background-color: #E4E7EC;
+    --element-background-hover-color: #D1D5DB;
+    --element-border-color: #637083;
+
+    --status-green: #40BF7F;
+    --status-yellow: #ffb21a;
+    --status-red: #F64C4C;
+    --status-gray: #637083; 
+  }
+
+/* Base Definitions */
+@font-face {
+    font-family: 'GitLab Sans';
+    src: url('fonts/GitLabSans') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+ html {
+    font-family: 'GitLab Sans', sans-serif;
+    background-color: var(--page-background-color);
+    color: var(--page-font-color);
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+  }
+
+/* Global Text Color definition */
+div, p, h1, h2, h3, h4, h5, h6, span, a, button, input, select, textarea {
+    color: var(--page-font-color);
+  }
+
+  /* Global Layout */
+.navbar-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0; 
+    background-color: var(--page-background-color);
+    z-index: 1000;
+  }
+  
+  .content-container {
+    margin-top: 70px;
+    position: relative;
+  }
+
+  /* Notification Layout */
+  .notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #323232; /* Dark background */
+    color: #ffffff; /* White text */
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    z-index: 1000;
+    animation: fade-in-out 0.5s ease-in-out forwards;
+  }
+  
+  /* Animation for appearance and disappearance */
+  @keyframes fade-in-out {
+    0% { opacity: 0; transform: translateY(10px) translateX(-50%); }
+    10% { opacity: 1; transform: translateY(0) translateX(-50%); }
+    90% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(10px) translateX(-50%); }
+  }
+  

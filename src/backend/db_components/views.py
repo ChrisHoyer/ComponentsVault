@@ -14,7 +14,8 @@ class GetTableContentView(generics.GenericAPIView):
     def get_queryset(self):
         tablename = self.request.query_params.get('tablename')
         page = self.request.query_params.get('page', 1)
-        return Get_TablePage(tablename, page)
+        textsearch = self.request.query_params.get('textsearch', None)
+        return Get_TablePage(tablename, page, textsearch)
 
     # get request
     def get(self, request, *args, **kwargs):
@@ -38,7 +39,7 @@ class GetTableListView(generics.GenericAPIView):
         permission_classes = [IsAuthenticated]
 
         def get_queryset(self):
-            return Response( Get_TableList() )
+            return Get_TableList()
         
         def get(self, request, *args, **kwargs):
-            return self.get_queryset()
+            return Response(self.get_queryset(), status=201)

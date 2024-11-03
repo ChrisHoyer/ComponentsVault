@@ -6,22 +6,24 @@
 Fetches and returns the complete contents of a specified database table.
 
 - **Permissions**: Open access (`IsAuthenticated`).
-- **Serializer**: `GenericComponentSerializer` — must match the data structure for validation.
-- **Query Parameter**: `tablename` — Specifies the table name. This table must exist in the database.
+- **Serializer**: `GenericComponentSerializer` — Must match the data structure for validation.
+- **Query Parameters**:
+  - `tablename`: Specifies the table name. This table must exist in the database.
+  - `page`: (Optional) Specifies the page number for pagination. Defaults to 1.
+  - `textsearch`: (Optional) Provides a text search term to filter results. Defaults to `None`.
 
 ### ViewSet: `GetTableContentView`
-Handles GET requests for database table data retrieval.
+Handles GET requests for component database table data retrieval.
 
-- **Purpose**: Processes GET requests.
+- **Purpose**: Processes GET requests to retrieve data from a specified table.
 - **Steps**:
-  1. Extracts the `tablename` parameter from the request and does a sanity check.
-  2. Calls `get_queryset()` to fetch data if `tablename` exists in database.
-  3. Uses `GenericComponentSerializer` to serialize data.
-  4. Checks if serialization is valid.
+  1. Extracts the `tablename`, `page`, and `textsearch` parameters from the request.
+  2. Calls `get_queryset()` to validate and fetch data if `tablename` exists in the component database.
+  3. Uses `GenericComponentSerializer` to serialize the retrieved data.
+  4. Validates the serialized data and prepares the response.
 - **Response**:
-	- 201: Successful return of validated serialized data.
-	- Other: Returns raw data if validation fails.
-
+	- **201**: Successful return of validated serialized data with pagination info.
+	- **400**: Returns error if serialization fails.
 
 ## Endpoint `GET /parts/tablelist`
 This endpoint returns a list of all tables in the connected components database.
@@ -29,6 +31,17 @@ This endpoint returns a list of all tables in the connected components database.
 - **Permissions**: Open access (`IsAuthenticated`).
 - **Serializer**: none
 - **Query Parameter**: none
+
+### ViewSet: `GetTableListView`
+Handles GET requests to retrieve a list of all tables in the component database.
+
+- **Purpose**: Processes GET requests to provide the names of all tables available in the connected database.
+- **Steps**:
+  1. Calls `get_queryset()` to fetch the list of table names from the database.
+  2. Returns the list of tables as a JSON response.
+- **Response**:
+	- **200**: Returns a JSON array containing the names of the tables.
+	- **500**: Returns an error message if there is an issue fetching the table names.
 
 ### ViewSet: `GetTableListView`
 A view class that handles GET requests to fetch the list of tables in the database.

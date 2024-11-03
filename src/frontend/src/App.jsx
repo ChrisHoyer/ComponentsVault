@@ -2,7 +2,7 @@ import react from "react"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
-import Home from "./pages/Home"
+import Base from "./pages/Base"
 import NotFound from "./pages/NotFound"
 import ProtectedRoute from "./components/ProtectedRoute"
 
@@ -27,7 +27,7 @@ function App() {
           element={
             // Can only be accessed when token is set
             <ProtectedRoute>
-              <Home />
+              <Base />
             </ProtectedRoute>
           }
         />

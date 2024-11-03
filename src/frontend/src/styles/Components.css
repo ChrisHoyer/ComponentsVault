@@ -1,0 +1,76 @@
+.component-row-common {
+  background-color: var(--element-background-color);
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  margin: 5px;
+  padding-left: 10px;
+  box-sizing: border-box;
+  border-radius: 15px;
+}
+
+.component-row-common:hover {
+  background-color: var(--element-background-hover-color);
+}
+
+/* Style brief row */
+.component-row-briefdata {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  height: 50px;
+}
+
+.component-row-fixedparameter {
+  margin-right: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.component-row-part-number {
+  width: 200px;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.component-row-manufacturer {
+  width: 150px;
+  flex-shrink: 0;
+  font-size: small;
+}
+
+.component-row-description {
+  width: 100%;
+  font-size: small;
+}
+
+.component-row-arrow {
+  width: 30px;
+  padding-right: 10px;
+  text-align: center;
+  color: var(--page-font-placeholder-color);
+}
+
+.component-row-copy-icon {
+  color: var(--page-font-placeholder-color);
+  margin-right: 5px;
+}
+
+.component-row-copy-icon:hover {
+  color: var(--page-font-color);
+}
+
+/* Full content */
+.component-row-fullcontent {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  height: 50px;
+}
+
+
+
+
