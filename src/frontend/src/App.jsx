@@ -22,15 +22,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={
-            // Can only be accessed when token is set
-            <ProtectedRoute>
-              <Base />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/table"
+          element={ <ProtectedRoute>
+                      <Base /> 
+                    </ProtectedRoute> } />
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<RegisterAndLogout />} />

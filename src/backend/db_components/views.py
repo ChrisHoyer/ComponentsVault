@@ -33,13 +33,26 @@ class GetTableContentView(generics.GenericAPIView):
                 }, status=201)
         
         return Response(serializer.data, status=400)
-    
+
+# ======================================== 
 # Endpoint that returns list of tables of the database
 class GetTableListView(generics.GenericAPIView):
         permission_classes = [IsAuthenticated]
 
         def get_queryset(self):
             return Get_TableList()
+        
+        def get(self, request, *args, **kwargs):
+            return Response(self.get_queryset(), status=201)
+
+# ========================================      
+# Endpoint that returns list of tables of the database
+class GetColumnListView(generics.GenericAPIView):
+        permission_classes = [IsAuthenticated]
+
+        def get_queryset(self):
+            tablename = self.request.query_params.get('tablename')
+            return Get_TableColumnList(tablename)
         
         def get(self, request, *args, **kwargs):
             return Response(self.get_queryset(), status=201)

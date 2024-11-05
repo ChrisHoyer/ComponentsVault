@@ -1,36 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import Navbar from '../components/Navbar';
+import Navbar from '../components/Navbar/Navbar';
 import ComponentList from '../components/ComponentList';
+
 import "../styles/global.css"
 
-const App = () => {
-  const [selectedItem, setSelectedItem] = useState('');
-  const [searchText, setSearchText] = useState("");
+const Base = () => {
 
   return (
     <>
-      <div  className="navbar-container"> 
-        <Navbar 
-          onSelectItem={setSelectedItem}
-          onSearchSubmit={setSearchText}
-        /> 
+      <div className="navbar-container"> 
+        <Navbar /> 
       </div>
-      <div  className="content-container">
-          {selectedItem ? (
-            <div className="component-list">
-              <ComponentList
-                selectedTable={selectedItem}
-                searchText={searchText}
-              />
-            </div>
-          ) : (
-            <h2 className="placeholder-message">Select a table from the dropdown menu to view its content</h2>
-          )}
+      <div className="content-container">
+          <ComponentList />
       </div >
-      <ToastContainer position="bottom-right"
+      <ToastContainer 
+          position="bottom-right"
           autoClose={5000}
           hideProgressBar={false}
           newestOnTop
@@ -39,9 +29,10 @@ const App = () => {
           pauseOnFocusLoss
           draggable
           pauseOnHover
-          theme="light"></ToastContainer>
+          theme="light"
+      />
     </>
   );
 };
 
-export default App;
+export default Base;

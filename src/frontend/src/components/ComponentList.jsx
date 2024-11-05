@@ -1,20 +1,25 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Row from './ComponentRow';
 import api from '../api';
 import '../styles/Components.css';
 
-const ComponentList = ({ selectedTable, searchText }) => {
+const ComponentList = () => {
   const [tables, setTables] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const observer = useRef();
+  const [searchParams] = useSearchParams(); 
+
+  const tablename = searchParams.get("tablename");
+  const searchText = searchParams.get("search") || ''; // Get search text from URL or default to empty string
 
   const getTableContent = useCallback((tablename, page = 1, search = '') => {
     if (!tablename) return;
 
     setLoading(true);
- 
+
     const query = `/parts/table?tablename=${encodeURIComponent(tablename)}&page=${page}`;
     const finalUrl = search ? `${query}&textsearch=${encodeURIComponent(search)}` : query;
 
@@ -36,12 +41,13 @@ const ComponentList = ({ selectedTable, searchText }) => {
       });
   }, []);
 
+  // Effect to fetch table content whenever the tablename or searchText changes
   useEffect(() => {
-    if (selectedTable) {
-      setPage(1);
-      getTableContent(selectedTable, 1, searchText);
+    if (tablename) {
+      setPage(1); 
+      getTableContent(tablename, 1, searchText);
     }
-  }, [selectedTable, searchText, getTableContent]);
+  }, [tablename, searchText, getTableContent]);
 
   const lastRowRef = useCallback(
     (node) => {
@@ -59,14 +65,15 @@ const ComponentList = ({ selectedTable, searchText }) => {
     [loading, page, totalPages]
   );
 
+  // Effect to load more data as the page changes
   useEffect(() => {
-    if (page > 1 && selectedTable) {
-      getTableContent(selectedTable, page, searchText);
+    if (page > 1 && tablename) {
+      getTableContent(tablename, page, searchText); 
     }
-  }, [page, selectedTable, searchText, getTableContent]);
+  }, [page, tablename, searchText, getTableContent]);
 
   return (
-    <div>
+    <div className="component-list">
       {tables.length > 0 ? (
         tables.map((partData, index) => {
           if (index === tables.length - 1) {
