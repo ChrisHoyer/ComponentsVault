@@ -1,3 +1,4 @@
+# This model includes Frontend Level Models
 from django.db import models
 
 # Router to correct database

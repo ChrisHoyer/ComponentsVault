@@ -2,8 +2,10 @@ import React from 'react';
 import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-// icons
+// Material UI
+import { TextField, InputAdornment, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const NavBarSearch = () => {
   const navigate = useNavigate();
@@ -28,7 +30,12 @@ const NavBarSearch = () => {
 
   const handleSearchSubmit = () => {
     const newParams = new URLSearchParams(searchParams);
-    newParams.set('search', searchText);
+
+    if (searchText.trim()) {
+      newParams.set('search', searchText);
+    } else {
+        newParams.delete('search');
+    }
 
     navigate({
       pathname: window.location.pathname,
@@ -36,21 +43,42 @@ const NavBarSearch = () => {
     });
   };
 
+  const handleClearSearch = () => {
+    setSearchText('');
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete('search'); 
+
+    navigate({
+      pathname: window.location.pathname,
+      search: newParams.toString(),
+    });
+  };
+
   return (
-    <div className="search-bar">
-      <input 
-        type="text"
-        className="search-bar-input"
+    <div className="search">
+      <TextField
+        variant="outlined"
         placeholder="Search..."
         value={searchText}
         onChange={handleSearchChange}
         onKeyDown={handleKeyDown}
-      />
-      <SearchIcon
-        className="search-bar-button"
-        onClick={(e) => {
-          e.stopPropagation();
-          handleSearchSubmit();
+        fullWidth
+        color="primary"
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <IconButton onClick={handleSearchSubmit}>
+                <SearchIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
+          endAdornment: searchText && (
+            <InputAdornment position="end">
+              <IconButton onClick={handleClearSearch}>
+                <ClearIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
         }}
       />
     </div>

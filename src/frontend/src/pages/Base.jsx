@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import React from 'react';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Navbar from '../components/Navbar/Navbar';
-import ComponentList from '../components/ComponentList';
+import PartsList from '../components/PartsTable/PartsList';
 
 import "../styles/global.css"
 
@@ -17,7 +16,7 @@ const Base = () => {
         <Navbar /> 
       </div>
       <div className="content-container">
-          <ComponentList />
+          <PartsList />
       </div >
       <ToastContainer 
           position="bottom-right"

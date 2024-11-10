@@ -22,7 +22,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/table"
+        <Route path="/"
           element={ <ProtectedRoute>
                       <Base /> 
                     </ProtectedRoute> } />

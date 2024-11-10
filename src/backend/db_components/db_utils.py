@@ -16,7 +16,28 @@ def Check_Tablename(tablename):
     existing_tables = connections['componentsdb'].introspection.table_names()
     if tablename not in existing_tables:
         raise NotFound(f"Table '{tablename}' does not exist in the database.")
-    
+
+# ========================================
+# Validate if column exists in the table
+def Check_Column(tablename, columnname):
+
+    # Validate table name argument with a regex
+    if not re.match(r'^[\w% -]+$', columnname) or len(columnname) > 100:
+        raise ValueError(f"Invalid column: '{columnname}'")
+
+    with connections['componentsdb'].cursor() as cursor:
+        try:
+            cursor.execute(f"SHOW COLUMNS FROM `{tablename}`")
+            columns = cursor.fetchall()
+            column_names = [col[0] for col in columns]
+
+            if columnname not in column_names:
+                raise ValueError(f"Column '{columnname}' does not exist in table '{tablename}'.")
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)
+
+
 # ========================================
 # Fetch data from specified tablename
 def Get_TablePage(tablename, page, textsearch=None):
@@ -104,3 +125,29 @@ def Get_TableColumnList(tablename):
             return Response({"error": str(e)}, status=500)
         
         return column_names
+
+# ========================================
+# Fetch list of values from a specified column in a table
+def Get_ColumnValues(tablename, columnname):
+
+    Check_Tablename(tablename)
+    Check_Column(tablename, columnname) 
+
+    print("TEST CHECK ERFOLGREICH: Tabelle={} Column={}".format(tablename, columnname))
+
+    with connections['componentsdb'].cursor() as cursor:
+        try:
+            # Query to get all values of the specified column
+            cursor.execute(f"SELECT `{columnname}` FROM `{tablename}`")
+            rows = cursor.fetchall()
+
+            # Extract values from the fetched rows
+            column_values = list(set(col[0] for col in rows))
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)
+        
+        return column_values
+
+# ========================================
+# Fetch list of colimns from specified tablename
